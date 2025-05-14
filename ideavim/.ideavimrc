@@ -1,0 +1,329 @@
+" Inspirations:
+" https://github.com/saaguero/ideavimrc/blob/master/.ideavimrc
+" https://github.com/alswl/.oOo./blob/master/.ideavimrc
+" https://github.com/kaHaleMaKai/ideavim-settings/blob/master/.ideavimrc
+" https://github.com/bigduu/ideavimrc/blob/master/.ideavimrc
+" https://github.com/OptimusCrime/ideavim/blob/master/ideavimrc
+" https://gist.github.com/yannick-cw/e59a4567ffaad19359c6e8ff228d5d68
+"
+" https://medium.com/@kyle.coberly/using-marks-in-vim-c878929ee022
+
+" List of IntelliJ actions: just type :actionlist <search word>
+" or look here: https://gist.github.com/zchee/9c78f91cc5ad771c1f5d
+" M->cmd, A->option, C->control, S->Shift
+" <ESC> - escape, <BS> - backspace, <CR> - return
+
+" TODO: Port neovim keybindings
+
+" Settings
+nnoremap <SPACE> <Nop>
+let mapleader = " "
+
+set clipboard+=unnamedplus
+
+" https://github.com/tpope/vim-surround
+" https://github.com/tpope/vim-surround/blob/master/doc/surround.txt
+set surround
+" https://github.com/adelarsq/vim-matchit
+" https://github.com/chrisbra/matchit/blob/master/doc/matchit.txt
+set matchit
+
+" Show the mode in the IntelliJ status bar
+set showmode
+
+set ignorecase smartcase
+set hlsearch
+set incsearch
+set undolevels=100
+
+" Maps Vim's global marks to IDE bookmarks
+set ideamarks
+
+" save all by `:w`
+set ideawrite
+
+" Implemented ideavim commands:
+" https://github.com/JetBrains/ideavim/blob/master/src/main/java/com/maddyhome/idea/vim/package-info.java
+" .ideavimrc-options:
+" https://github.com/JetBrains/ideavim/wiki/%22set%22-commands
+
+" For conflicts with the idea short cuts: https://github.com/JetBrains/ideavim/blob/master/doc/sethandler.md
+
+" https://github.com/JetBrains/ideavim/blob/master/doc/ideajoin-examples.md
+set ideajoin
+
+" Specifies the mode to be used when a refactoring selects text to be edited
+set idearefactormode=keep
+
+" === Navigation ===
+" gD: go to declaration (standard)
+" gi, gI are already reserved in vim
+" conflicts with gt (go to tab left):
+"nnoremap gtd <ESC>:action GotoTypeDeclaration<CR>
+noremap <leader>` <ESC>:action SelectInProjectView<CR>
+map <leader>/ <Action>(FindInPath)
+
+" Clear search highlights
+nnoremap <leader><ESC> :nohlsearch<CR>
+
+nnoremap <leader>ee <ESC>:action RecentChangedFiles<CR>
+
+nnoremap <leader>se <ESC>:action RecentFiles<CR>
+
+nnoremap - <ESC>:action ShowNavBar<CR>
+
+" Go to last change
+noremap `. <ESC>:action JumpToLastChange<CR>
+
+" Go to [r]ecent [l]ocation
+map <leader>rl <Action>(RecentLocations)
+
+" Go to reference (= usages)
+map gr <Action>(ShowUsages)
+
+" Go to implementation
+map gi <Action>(GotoImplementation)
+
+" Jumps via `vim-flash`
+map s <Action>(flash.search)
+
+" Code block navigation
+" nnoremap <leader>( (^
+" nnoremap <leader>) )k^
+" nnoremap <A-PageUp> ((
+" nnoremap <A-PageDown> ))
+
+" Bookmarking
+nnoremap m <ESC>:action ToggleBookmark<CR>
+
+" Todo: Does this work without these mappings?
+nnoremap `1 :action GotoBookmark1<CR>
+nnoremap `2 :action GotoBookmark2<CR>
+nnoremap `3 :action GotoBookmark3<CR>
+nnoremap `4 :action GotoBookmark4<CR>
+nnoremap `5 :action GotoBookmark5<CR>
+nnoremap `6 :action GotoBookmark6<CR>
+nnoremap `7 :action GotoBookmark7<CR>
+nnoremap `8 :action GotoBookmark8<CR>
+nnoremap `9 :action GotoBookmark9<CR>
+
+nnoremap `A :action GotoBookmarkA<CR>
+nnoremap `B :action GotoBookmarkB<CR>
+nnoremap `C :action GotoBookmarkC<CR>
+nnoremap `D :action GotoBookmarkD<CR>
+nnoremap `E :action GotoBookmarkE<CR>
+nnoremap `F :action GotoBookmarkF<CR>
+nnoremap `G :action GotoBookmarkG<CR>
+nnoremap `H :action GotoBookmarkH<CR>
+nnoremap `I :action GotoBookmarkI<CR>
+nnoremap `J :action GotoBookmarkJ<CR>
+nnoremap `K :action GotoBookmarkK<CR>
+nnoremap `L :action GotoBookmarkL<CR>
+nnoremap `M :action GotoBookmarkM<CR>
+nnoremap `N :action GotoBookmarkN<CR>
+nnoremap `O :action GotoBookmarkO<CR>
+nnoremap `P :action GotoBookmarkP<CR>
+nnoremap `Q :action GotoBookmarkQ<CR>
+nnoremap `R :action GotoBookmarkR<CR>
+nnoremap `S :action GotoBookmarkS<CR>
+nnoremap `T :action GotoBookmarkT<CR>
+nnoremap `U :action GotoBookmarkU<CR>
+nnoremap `V :action GotoBookmarkV<CR>
+nnoremap `W :action GotoBookmarkW<CR>
+nnoremap `X :action GotoBookmarkX<CR>
+nnoremap `Y :action GotoBookmarkY<CR>
+nnoremap `Z :action GotoBookmarkZ<CR>
+
+" [s]earch [b]ookmarks
+nnoremap <leader>sb :action ShowBookmarks <CR>
+
+" [e]rror [d]escription
+" noremap <leader>ed <ESC>:action ShowErrorDescription<CR>
+" [st]tructure
+noremap <leader>st <ESC>:action FileStructurePopup<CR>
+
+" Smart way to move btw. windows
+" ... not needed anymore: I use `Opt` + `Tab` for that
+" map <C-j> <C-W>j
+" map <C-k> <C-W>k
+" map <C-h> <C-W>h
+" map <C-l> <C-W>l
+
+" jump some lines down/up
+" noremap <down> 5j
+" noremap <up> 5k
+
+" jump some more line down/up
+" noremap <leader>j 50j
+" noremap <leader>k 50k
+
+" Show File Path
+noremap <leader>p <ESC>:action ShowFilePath<CR>
+
+" Switcher
+nnoremap <leader>sw :action Switcher<CR>
+
+" goto class: Cmd + O
+" goto file
+noremap gc <ESC>:action GotoClass<CR>
+noremap gf <ESC>:action GotoFile<CR>
+" goto method
+noremap gm <ESC>:action GotoSymbol<CR>
+" goto test
+" conflicts with gt (go tab left)
+"noremap gtt <ESC>:action GotoTest<CR>
+
+" Tabs
+" https://superuser.com/a/675119
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>$ <ESC>:action GoToLastTab<CR>
+
+" Hierarchy
+noremap ghm <ESC>:action MethodHierarchy<CR>
+noremap ght <ESC>:action TypeHierarchy<CR>
+noremap ghc <ESC>:action CallHierarchy<CR>
+
+" show information for current file like path, size etc.
+" mimicking `Ctrl + G` in vim (without file path)
+command! FileInfo echo "\"File information:\"   " . line('$') . "   lines --". (line('.') - 1) * 100 / line('$') . "%--"
+
+command! Test echo "Test"
+
+nnoremap <leader>f :FileInfo<CR>
+
+" === Code refactoring ===
+" Complete statement; `cst` clashes with `cst` from surround.vim
+"noremap cmp <ESC>:action EditorCompleteStatement<CR>
+
+" === Debugging ===
+
+" Should more debugging short cuts be added?
+
+" === \ commands ===
+" \ also works
+" uml popup
+noremap \u <ESC>:action ShowUmlDiagramPopup<CR>
+
+" Switch run configuration
+" Note: There is a run anything short-cut (ctrl + ctrl)
+"map <leader>cr <Action>(ChooseRunConfiguration)
+"map <leader>cd <Action>(ChooseDebugConfiguration)
+
+" run (Use standard short cut Ctr + R)
+" noremap \r :action Run<CR>
+" debug (Use standard short cut (Ctr + D)
+"noremap \d :action Debug<CR>
+" stop
+noremap \s :action Stop<CR>
+" run (test) class
+noremap \t :action RunClass<CR>
+
+" === Vim Default embeddings ===
+" find (do not easymotion for this; did not work)
+" do not remap `/`. This interferes with other mappings. CMD + F is good and standard enough.
+" noremap / <ESC>:action Find<CR>
+" Navigate history
+nmap <C-o> <Action>(Back)
+nmap <C-i> <Action>(Forward)
+" The H and L native mappings are too important for me :)
+"nmap H <Action>(Back)
+"nmap L <Action>(Forward)
+nmap <C-w>x <ESC>:action MoveEditorTabToOppositeGroup<CR>
+
+" toggle editor presentation
+noremap <S-F1> <ESC>:action EditorToggleShowLineNumbers<CR>
+"noremap <F2> <ESC>:action EditorToggleUseSoftWraps<CR>
+
+" toggle zen mode on/off
+nmap <leader>z <Action>(ToggleZenMode)
+
+
+" Resolve remaining Idea short-cuts versus Ideavim commands conflicts
+" https://github.com/JetBrains/ideavim/blob/master/doc/sethandler.md
+" Add selection for next occurence
+" I do need to see redundant file information but with another short-cut
+sethandler <C-g> a:ide
+" I need to scroll down in vim
+sethandler <C-d> a:vim
+" Move to line end is already covered by vim
+sethandler <C-e> a:vim
+" Why does intelliJ even map this to right, lol
+sethandler <C-f> a:vim
+" I need <C-i> for vim to go back & forth in time/history
+sethandler <C-i> a:vim
+" I need this for my "smart" split window switching
+" Use switcher in IntelliJ to see the class hierarchy if needed
+sethandler <C-h> a:vim
+" I like to see javadocs quick (In vim <C-j> is just another way to go down)
+sethandler <C-j> a:ide
+" I do not need cut to end line IDE command, if I have vim
+" But I do not need to insert digraphs in general... anyway.
+sethandler <C-k> a:ide
+" I need this for my "smart" split window switching
+sethandler <C-l> a:vim
+" I need <C-o> for vim to go back & forth in time/history
+sethandler <C-o> a:vim
+" To enable Vim-style split windows
+sethandler <C-w> a:vim
+" Need of inserting ASCII-character by vim command is low
+" But CVS stuff is needed often
+sethandler <C-v> a:ide
+" I think I do not need the Software flow control from vim here
+sethandler <C-s> a:ide
+sethandler <C-q> a:ide
+" I do not need this IDE command. I have a vim rmap for that
+" vim short-cut for :redo
+" not needed, because I can use the IDE short-cut Shift-CMD-Z
+sethandler <C-r> a:ide
+sethandler <S-Tab> n:vim
+sethandler <C-b> n:vim
+" I do not need an extra short-cut for <CR>
+sethandler <C-m> a:ide
+" I do not need to redraw
+sethandler <C-l> a:ide
+" I use this for editor presentation change via vim
+"sethandler <F2> a:vim
+
+" Short Cuts in idea
+" Ctrl + j/k for next/previous method (better for keyboard without arrows)
+
+" Define vim commands for ide-short-cuts that were overridden but needed
+
+" Reading Mode
+let g:reading_mode = 0
+
+function! ToggleReadingMode()
+  if g:reading_mode
+    "unmap N
+    "unmap n
+    unmap H
+    unmap L
+    unmap <up>
+    unmap <down>
+    let g:reading_mode = 0
+    " echo "Reading Mode: OFF"
+  else
+    "nnoremap N <C-u>
+    "nnoremap n <C-d>
+    " remappings of H, L to buffer, switcher were not satisfying
+    nnoremap H <C-o>
+    nnoremap L <C-i>
+    nnoremap <up> <C-y>
+    nnoremap <down> <C-e>
+    let g:reading_mode = 1
+    " echo "Reading Mode: ON"
+  endif
+endfunction
+
+nnoremap <leader>r :call ToggleReadingMode()<CR>
+
+command! RM echo "Reading Mode: " . reading_mode
